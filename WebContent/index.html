@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+
+window.onload = function () {
+    $.ajax({url: "http://localhost:8080/LiftOff/temp/getDistinctDates", success: function(result){
+        var select = document.getElementById("dropdown");
+        for(i=0; i < result.length; i++){
+        	 var option = document.createElement('option');
+             option.text = option.value = result[i];
+             select.add(option, 0);
+        }
+        onSelect();
+
+    }});
+}
+function onSelect() {
+    var x = document.getElementById("dropdown").value;
+    $.ajax({url: "http://localhost:8080/LiftOff/temp/getMinMaxTemp?date="+x, success: function(result){
+        var table = document.getElementById("dataTable");
+        $("#dataTable tr").remove(); 
+
+        var i = 0;
+        for(var val in result){
+        	    var row = table.insertRow(i);
+        	    var cell1 = row.insertCell(0);
+        	    var cell2 = row.insertCell(1);
+        	    cell1.innerHTML = val;
+        	    cell2.innerHTML = result[val];
+        	    i++;
+        } 
+        
+        document.getElementById("dataTable").style.border = "thick solid black"
+    }});
+   }
+    
+</script>
+ </head>
+    <body>
+<select id="dropdown" onchange="onSelect()"></select>
+<table id="dataTable"></table>
+</body>
+</html>
