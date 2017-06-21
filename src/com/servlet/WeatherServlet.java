@@ -37,7 +37,7 @@ public class WeatherServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_OK);
 		} else if("/getGraphData".equals(request.getPathInfo())){
 			
-			System.out.println("Inside graph : " + req);
+			System.out.println("Inside graph of the : " + req);
 			SortedMap<String, String> graphdata = tempService.getDataForGraph(req);
 			Gson gson = new Gson();
 			String dateData = gson.toJson(graphdata);
